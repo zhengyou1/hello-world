@@ -1,0 +1,71 @@
+<html>
+<body>
+
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <style>
+        .error {color: #FF0000;}
+    </style>
+</head>
+<body>
+
+<?php
+// 定义变量并设置为空值
+$numberErr = $secretErr = $identityErr = "";
+$number = $secret = $identity   = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (empty($_POST["number"])) {
+        $numberErr = "学号是必填的";
+    } else {
+        $number = test_input($_POST["number"]);
+    }
+
+    if (empty($_POST["secret"])) {
+        $secretErr = "密码是必填的";
+    } else {
+        $secret = test_input($_POST["secret"]);
+    }
+
+    if (empty($_POST["identity"])) {
+        $identityErr = "身份是必选的";
+    } else {
+        $identity = test_input($_POST["identity"]);
+    }
+}
+
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+?>
+
+<h2>PHP 验证实例</h2>
+<p><span class="error">* 必需的字段</span></p>
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+    学号：<input type="text" name="number">
+    <span class="error">* <?php echo $numberErr;?></span>
+    <br><br>
+    密码：<input type="text" name="secret">
+    <span class="error">* <?php echo $secretErr;?></span>
+    <br><br>
+    身份：
+    <br>
+    <input type="radio" name="identity" value="teacher">老师
+    <input type="radio" name="identity" value="student">学生
+    <input type="radio" name="identity" value="administrator">管理员
+    <span class="error">* <?php echo $identityErr;?></span>
+    <br><br>
+    <input type="submit" name="submit" value="提交">
+</form>
+
+
+
+</body>
+</html>
+</body>
+</html>
